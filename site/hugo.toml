@@ -1,4 +1,4 @@
-baseURL = 'https://jheronimus.github.io/bios/'
+baseURL = 'https://jheronimus.github.io/mrbios/'
 relativeURLs = false
 canonifyURLs = false
 locale = 'en-us'
@@ -7,7 +7,7 @@ dataDir = '../data'
 disableKinds = ['taxonomy', 'term']
 
 [params]
-  githubRepo = 'jheronimus/bios'
+  githubRepo = 'jheronimus/mrbios'
 
 [markup]
   [markup.goldmark]
