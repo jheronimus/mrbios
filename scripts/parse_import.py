@@ -1,7 +1,8 @@
+import hashlib
 import os
 import re
-import hashlib
 import sys
+
 
 def calculate_sha256(filepath):
     """Calculate SHA256 of a file to check for duplicates."""
@@ -18,14 +19,14 @@ def calculate_sha256(filepath):
 def parse_bios_image(data: bytes):
     """
     Parses a raw BIOS ROM image to extract ID and version info.
-    Supports MR BIOS (Microid Research) and Award/Unicore formats.
+    Supports MR BIOS (Microid Research) format.
     """
     if len(data) < 512:
         return None
         
     tail = data[-512:]
     
-    # 1. MR BIOS Identification
+    # MR BIOS Identification
     if b"MR BIOS" in data:
         version, bio_id, date = None, None, None
         
@@ -49,22 +50,6 @@ def parse_bios_image(data: bytes):
             "type": "MR BIOS",
             "id": bio_id if bio_id else "",
             "version": version if version else "",
-            "date": date if date else ""
-        }
-        
-    # 2. Award / Unicore Identification
-    # Standard Award ID string is 8 or 9 chars located in the tail
-    tail_short = data[-128:]
-    award_match = re.search(b"([2356][A-Z0-9]{4}[A-Z0-9]{2}[A-Z0-9])", tail_short)
-    if award_match:
-        award_id = award_match.group(1).decode("ascii")
-        dates = re.findall(b"\\b\\d{2}/\\d{2}/\\d{2,4}\\b", data)
-        date = dates[-1].decode("ascii") if dates else None
-        
-        return {
-            "type": "Award/Unicore",
-            "id": award_id if award_id else "",
-            "version": "",
             "date": date if date else ""
         }
         
@@ -154,25 +139,15 @@ def main():
                     f.write(f"  Versions found: '{info['version']}'\n")
                     f.write("  files:\n")
                     f.write(f"  - {rel_path}\n")
-                elif info['type'] == 'Award/Unicore':
-                    f.write(f"- Folder: '{info['id']}'\n")
-                    f.write("  Manufacturer: ''\n")
-                    f.write("  Chipset: ''\n")
-                    f.write("  I/O: ''\n")
-                    f.write("  Release: ''\n")
-                    f.write("  Motherboard: ''\n")
-                    f.write("  Aliases: ''\n")
-                    f.write("  files:\n")
-                    f.write(f"  - {rel_path}\n")
                 else:
-                    # Unknown type placeholder (defaults to Unicore-like structure or basic path mapping)
-                    f.write(f"- Folder: '{os.path.basename(rel_path)}'\n")
-                    f.write("  Manufacturer: ''\n")
+                    # Unknown type placeholder (defaults to MR BIOS-like structure)
+                    f.write("- Part Number: ''\n")
+                    f.write(f"  Code: '{os.path.basename(rel_path)}'\n")
                     f.write("  Chipset: ''\n")
-                    f.write("  I/O: ''\n")
-                    f.write("  Release: ''\n")
-                    f.write("  Motherboard: ''\n")
-                    f.write("  Aliases: ''\n")
+                    f.write("  Turbo: ''\n")
+                    f.write("  Note: ''\n")
+                    f.write("  Should work with: ''\n")
+                    f.write("  Versions found: ''\n")
                     f.write("  files:\n")
                     f.write(f"  - {rel_path}\n")
         print("Done!")

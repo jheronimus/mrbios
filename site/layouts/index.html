@@ -1,6 +1,38 @@
 {{ define "main" }}
-<div class="home-buttons">
-  <a href="{{ "mrbios/" | relURL }}" class="home-btn">MR BIOS</a>
-  <a href="{{ "unicore/" | relURL }}" class="home-btn">Unicore Award</a>
+<div class="section-page">
+  <h1>{{ .Title }}</h1>
+  <div class="section-desc">
+    {{ .Content }}
+  </div>
+  
+  {{ $chipsets := slice }}
+  {{ $special := slice }}
+  
+  {{ range .Pages.ByTitle }}
+    {{ $name := .File.BaseFileName }}
+    {{ if or (eq $name "missing") (eq $name "motherboards_with_stock_mrbios") (eq $name "revision_history") }}
+      {{ $special = $special | append . }}
+    {{ else }}
+      {{ $chipsets = $chipsets | append . }}
+    {{ end }}
+  {{ end }}
+
+  <h2>Chipsets</h2>
+  <ul class="tab-list">
+    {{ range $chipsets }}
+      <li class="tab-item">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </li>
+    {{ end }}
+  </ul>
+
+  {{ if gt (len $special) 0 }}
+    <h2>Other Resources</h2>
+    <div class="other-links">
+      {{ range $special }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ end }}
+    </div>
+  {{ end }}
 </div>
 {{ end }}

@@ -11,13 +11,11 @@
 
   <header class="nav-header">
     <div class="nav-container">
-      <a href="{{ site.Home.RelPermalink }}" class="site-logo">BIOS Archive</a>
+      <a href="{{ site.Home.RelPermalink }}" class="site-logo">MR BIOS Archive</a>
       {{ if not .IsHome }}
       <nav>
         <ul class="nav-menu">
           <li><a href="{{ site.Home.RelPermalink }}" class="nav-link">Home</a></li>
-          <li><a href="{{ "mrbios/" | relURL }}" class="nav-link">MR BIOS</a></li>
-          <li><a href="{{ "unicore/" | relURL }}" class="nav-link">Unicore Award</a></li>
         </ul>
       </nav>
       {{ end }}

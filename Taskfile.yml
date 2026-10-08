@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  build:
+    desc: Build the Hugo site
+    cmds:
+      - hugo --source site
+
+  lint:
+    desc: Lint Python scripts
+    cmds:
+      - ruff check scripts/

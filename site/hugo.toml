@@ -2,7 +2,7 @@ baseURL = 'https://jheronimus.github.io/bios/'
 relativeURLs = false
 canonifyURLs = false
 locale = 'en-us'
-title = 'MR BIOS & Unicore Award BIOS Archive'
+title = 'MR BIOS Archive'
 dataDir = '../data'
 
 [params]
