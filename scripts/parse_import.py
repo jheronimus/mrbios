@@ -12,7 +12,7 @@ def calculate_sha256(filepath):
             while chunk := f.read(8192):
                 sha256.update(chunk)
         return sha256.hexdigest()
-    except Exception as e:
+    except OSError as e:
         print(f"Error reading {filepath}: {e}", file=sys.stderr)
         return None
 
@@ -106,7 +106,7 @@ def main():
                 try:
                     with open(filepath, 'rb') as f:
                         data = f.read()
-                except Exception as e:
+                except OSError as e:
                     print(f"Error reading file {rel_import_path}: {e}", file=sys.stderr)
                     continue
                     
@@ -151,7 +151,7 @@ def main():
                     f.write("  files:\n")
                     f.write(f"  - {rel_path}\n")
         print("Done!")
-    except Exception as e:
+    except OSError as e:
         print(f"Failed to write new.yml: {e}", file=sys.stderr)
         sys.exit(1)
         

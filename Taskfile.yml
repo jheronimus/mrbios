@@ -1,8 +1,14 @@
 version: '3'
 
 tasks:
+  versions:
+    desc: Generate file versions mapping
+    cmds:
+      - python3 scripts/generate_versions.py
+
   build:
     desc: Build the Hugo site
+    deps: [versions]
     cmds:
       - hugo --source site
 

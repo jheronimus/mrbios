@@ -4,6 +4,7 @@ canonifyURLs = false
 locale = 'en-us'
 title = 'MR BIOS Archive'
 dataDir = '../data'
+disableKinds = ['taxonomy', 'term']
 
 [params]
   githubRepo = 'jheronimus/bios'

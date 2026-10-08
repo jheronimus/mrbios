@@ -165,11 +165,22 @@ td a { font-weight: 500; }
 }
 
 /* Download link */
+.downloads-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  align-items: center;
+}
+
 .download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   font-family: var(--mono);
   font-size: 0.8rem;
   color: var(--link);
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .download-btn:hover { text-decoration: underline; }

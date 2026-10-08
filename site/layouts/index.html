@@ -1,38 +1,13 @@
-{{ define "main" }}
-<div class="section-page">
-  <h1>{{ .Title }}</h1>
-  <div class="section-desc">
-    {{ .Content }}
-  </div>
-  
-  {{ $chipsets := slice }}
-  {{ $special := slice }}
-  
-  {{ range .Pages.ByTitle }}
-    {{ $name := .File.BaseFileName }}
-    {{ if or (eq $name "missing") (eq $name "motherboards_with_stock_mrbios") (eq $name "revision_history") }}
-      {{ $special = $special | append . }}
-    {{ else }}
-      {{ $chipsets = $chipsets | append . }}
-    {{ end }}
-  {{ end }}
-
-  <h2>Chipsets</h2>
-  <ul class="tab-list">
-    {{ range $chipsets }}
-      <li class="tab-item">
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      </li>
-    {{ end }}
-  </ul>
-
-  {{ if gt (len $special) 0 }}
-    <h2>Other Resources</h2>
-    <div class="other-links">
-      {{ range $special }}
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      {{ end }}
-    </div>
-  {{ end }}
-</div>
-{{ end }}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>MR BIOS Archive</title>
+  <meta http-equiv="refresh" content="0; url={{ "acer/" | relURL }}">
+  <link rel="canonical" href="{{ "acer/" | absURL }}">
+  <script>window.location.replace("{{ "acer/" | relURL }}");</script>
+</head>
+<body>
+  <p>Redirecting to <a href="{{ "acer/" | relURL }}">MR BIOS catalog</a>...</p>
+</body>
+</html>

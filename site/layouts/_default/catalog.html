@@ -4,13 +4,10 @@
 
   <!-- Navigation tab bar for categories -->
   <ul class="tab-list">
-    {{ range .Parent.Pages.ByTitle }}
-      {{ $name := .File.BaseFileName }}
-      {{ if not (or (eq $name "missing") (eq $name "motherboards_with_stock_mrbios") (eq $name "revision_history")) }}
-        <li class="tab-item{{ if eq .Permalink $.Permalink }} active{{ end }}">
-          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-        </li>
-      {{ end }}
+    {{ range site.RegularPages.ByTitle }}
+      <li class="tab-item{{ if eq .Permalink $.Permalink }} active{{ end }}">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </li>
     {{ end }}
   </ul>
 
@@ -19,7 +16,7 @@
   {{ $data := index hugo.Data $type $name }}
 
   {{ if $data }}
-    {{ $masterHeaders := slice "Folder" "Part Number" "Part number" "INTL50C" "Code" "Shareware filename" "CPU" "Chipset" "I/O chip" "I/O" "Turbo" "Note" "Notes" "Should work with" "Versions found" "Manufacturer" "Release" "Motherboard" "Aliases" "Manufacturer name" "Bios count" "AwardBIOS Part Numbers" "86Bot parse of manufacturer string" "Award manufacturer id" "Added to TRW" "Boards on TRW" "Comment" "MRBIOS part number" "MRBIOS version" "Manufacturer website" }}
+    {{ $masterHeaders := slice "Folder" "Part Number" "Part number" "INTL50C" "Code" "Shareware filename" "CPU" "Chipset" "I/O chip" "I/O" "Turbo" "Note" "Notes" "Should work with" "Manufacturer" "Release" "Motherboard" "Aliases" "Manufacturer name" "Bios count" "AwardBIOS Part Numbers" "86Bot parse of manufacturer string" "Award manufacturer id" "Added to TRW" "Boards on TRW" "Comment" "MRBIOS part number" "MRBIOS version" "Manufacturer website" }}
     
     {{ $firstEntry := index $data 0 }}
     {{ $headers := slice }}
@@ -53,14 +50,18 @@
                 </td>
               {{ end }}
               <td>
-                {{ range $file := $row.files }}
-                  <a href="https://raw.githubusercontent.com/{{ $.Site.Params.githubRepo }}/main/{{ $file }}" class="download-btn" download>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                    {{ path.Base $file }}
-                  </a>
-                {{ else }}
-                  <span class="badge" style="background: rgba(239, 68, 68, 0.08); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.15);">No Image</span>
-                {{ end }}
+                <div class="downloads-cell">
+                  {{ $verMap := index hugo.Data "mrbios" "versions" | default dict }}
+                  {{ range $file := $row.files }}
+                    {{ $label := index $verMap $file | default (path.Base $file) }}
+                    <a href="https://raw.githubusercontent.com/{{ $.Site.Params.githubRepo }}/main/{{ $file }}" class="download-btn" download title="{{ path.Base $file }}">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                      {{ $label }}
+                    </a>
+                  {{ else }}
+                    <span class="badge" style="background: rgba(239, 68, 68, 0.08); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.15);">No Image</span>
+                  {{ end }}
+                </div>
               </td>
             </tr>
           {{ end }}
